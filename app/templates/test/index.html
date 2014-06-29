@@ -1,0 +1,58 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Mocha Spec Runner</title>
+    <link rel="stylesheet" href="lib/mocha/mocha.css">
+</head>
+<body>
+    <div id="mocha"></div>
+
+    <script src="lib/mocha/mocha.js"></script>
+    <script>mocha.setup('bdd')</script>
+
+    <!-- assertion framework -->
+    <script src="lib/chai.js"></script>
+    <script>
+var expect = chai.expect;
+var should = chai.should;
+    </script>
+
+    <!-- include source files here... -->
+    <script src="../app/bower_components/requirejs/require.js"></script>
+
+    <script>
+
+
+require.config({
+  paths: {
+    'jQuery': '../app/bower_components/jquery/jquery',
+    'bootstrap': '../app/bower_components/bootstrap/js/bootstrap',
+    'lodash': '../app/bower_components/lodash/dist/lodash.compat.min',
+    'knockout': '../app/bower_components/knockout.js/knockout',
+    'game': '../app/js/game',
+    'test': 'spec/test'
+  },
+  shim: {
+    'jQuery': {
+      exports: '$'
+    },
+    'bootstrap': {
+      deps: ['jQuery']
+    },
+    'lodash': {
+      exports: '_'
+    },
+    'knockout': {
+      exports: 'ko'
+    }
+  }
+});
+
+require(['test'], function() {
+  mocha.run()
+});
+
+    </script>
+</body>
+</html>

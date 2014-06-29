@@ -1,0 +1,20 @@
+{
+  "name": "<%= _.slugify(appname) %>",
+  "version": "0.0.0",
+  "dependencies": {
+    "requirejs": "~2.1.14",
+    "requirejs-text": "~2.0.12",
+    "requirejs-plugins": "~1.0.2",
+    "modernizr": "2.8.2",
+    "jquery": "~2.0.0",
+    "knockout.js": "~3.1.0",
+    "lodash": "2.4.1",
+    "simrou": "~1.5.2",
+    "moment": "~2.6.0",
+    "imagesloaded": "~3.1.5",
+    "bootstrap": "~3.1.1"
+  },
+  "devDependencies": {}
+}
+
+

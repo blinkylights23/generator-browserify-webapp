@@ -1,0 +1,40 @@
+{
+  "name": "generator-browserify-webapp",
+  "version": "0.0.1",
+  "description": "A generator for Yeoman",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "homepage": "https://github.com/blinkylights23/generator-browserify-webapp",
+  "author": {
+    "name": "Paul Smith",
+    "email": "paul@paulsmith.io",
+    "url": "https://github.com/blinkylights23"
+  },
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:blinkylights23/generator-browserify-webapp.git"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "yeoman-generator": "~0.17.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.20.1"
+  },
+  "peerDependencies": {
+    "yo": "~0.17.0"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+    "siteTitle": "Awesome Site : Discovery Channel",
+    "showTitle": "Awesome Show",
+    "pageTitle": "Replace this in page.json files",
+    "network": "Discovery Channel",
+    "site": "http://awesomesite.com",
+    "url": "http://awesomesite.com/",
+    "tunein": "Sun May 4 9/8c",
+    "logo": "/img/discovery-logo.png",
+    "fbShareImg": "http://awesomesite.com/img/fb-thumb.jpg?050214",
+    "favicon": "http://static.ddmcdn.com/en-us/dsc/images/ico/favicon.ico",
+    "metaDescription": "This is an awesome page in an awesome site for an awesome show."
+}
+
+
+

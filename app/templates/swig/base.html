@@ -1,0 +1,73 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta charset="utf-8">
+        <title>{% block pageTitle %}{{ pageTitle }}{% endblock pageTitle %} : {{ siteTitle }}</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="{{ pageTitle }} : {{ siteTitle }}"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:url" content="{{ url }}"/>
+        <meta property="og:image" content="{{ fbShareImg }}"/>
+        <meta property="og:site_name" content="{{ siteTitle }}"/>
+        <meta property="og:description" content="{{ metaDescription }}"/>
+        <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+        <link rel="image_src" type="image/png"  href="{{ fbShareImg }}" />
+        <link rel="icon" href="{{ favicon }}" />
+
+        <!--[if lt IE 9 ]> <script>document.documentElement.className+=' lt-ie9';</script> <![endif]-->
+        <!--[if IE 9 ]> <script>document.documentElement.className+=' lt-ie10';</script> <![endif]-->
+
+        <!-- build:css css/main.css -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="css/main.css">
+        {% block addl_main_css %}{% endblock addl_main_css %}
+        <!-- endbuild -->
+        {% block addl_css %}{% endblock addl_css %}
+
+        <!-- build:js js/vendor/modernizr.js -->
+        <script src="bower_components/modernizr/modernizr.js"></script>
+        <!-- endbuild -->
+    </head>
+    <body class="{% block pagename %}{% endblock %}">
+        <!--[if lt IE 9]>
+            <div class="reveal-modal msg ie-msg" data-reveal>
+                <h2>Please Upgrade</h2>
+                <p>Your experience with this site will be much improved by upgrading your browser. We recommend turning off
+                compatibility mode or upgrading to the latest version of your favorite browser software.</p>
+                <a class="close-reveal-modal">&#215;</a>
+            </div>
+        <![endif]-->
+
+        {% block header %}
+            {% include "includes/header.html" %}
+        {% endblock header %}
+
+        {% block content %}
+            Default content
+        {% endblock %}
+
+        {% block footer %}
+            {% include "includes/footer.html" %}
+        {% endblock footer %}
+
+        {% block require %}{% endblock require %}
+
+        <noscript>
+            <div class="reveal-modal msg" data-reveal>
+                <h2>Site not loading correctly?</h2>
+                <p>This site requires an up-to-date browser and JavaScript enabled for it to function properly.</p>
+                <p>
+                  To view all features of this site, please enable JavaScript and reload the page. Don't know what
+                  JavaScript is or how to enable it? <a href="http://enable-javascript.com/" target="_blank">Click
+                  here</a> for instructions for on how to enable JavaScript in your web browser.
+                </p>
+            </div>
+            <div class="reveal-modal-bg"></div>
+        </noscript>
+        <div id="fb-root"></div>
+        <div id="adops"></div>
+
+    </body>
+</html>
