@@ -52,22 +52,7 @@
             {% include "includes/footer.html" %}
         {% endblock footer %}
 
-        {% block require %}{% endblock require %}
-
-        <noscript>
-            <div class="reveal-modal msg" data-reveal>
-                <h2>Site not loading correctly?</h2>
-                <p>This site requires an up-to-date browser and JavaScript enabled for it to function properly.</p>
-                <p>
-                  To view all features of this site, please enable JavaScript and reload the page. Don't know what
-                  JavaScript is or how to enable it? <a href="http://enable-javascript.com/" target="_blank">Click
-                  here</a> for instructions for on how to enable JavaScript in your web browser.
-                </p>
-            </div>
-            <div class="reveal-modal-bg"></div>
-        </noscript>
-        <div id="fb-root"></div>
-        <div id="adops"></div>
+        {% block javascript %}{% endblock javascript %}
 
     </body>
 </html>

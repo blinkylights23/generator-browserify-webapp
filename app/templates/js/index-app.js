@@ -44,7 +44,7 @@ var ViewModel = function() {
   };
 
 };
-var view = new ViewModel(clock, schedule);
+var view = new ViewModel();
 ko.applyBindings(view);
 
 // Router

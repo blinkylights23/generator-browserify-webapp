@@ -1,58 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Mocha Spec Runner</title>
-    <link rel="stylesheet" href="lib/mocha/mocha.css">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Mocha Test</title>
+    <link rel="stylesheet" href="lib/mocha/mocha.css" type="text/css" charset="utf-8" />
 </head>
 <body>
+    <!-- Required for browser reporter -->
     <div id="mocha"></div>
 
-    <script src="lib/mocha/mocha.js"></script>
-    <script>mocha.setup('bdd')</script>
-
-    <!-- assertion framework -->
-    <script src="lib/chai.js"></script>
-    <script>
-var expect = chai.expect;
-var should = chai.should;
+    <!-- mocha -->
+    <script src="lib/mocha/mocha.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        // This will be overridden by mocha-helper if you run with grunt
+        mocha.setup('bdd');
+        mocha.setup({ignoreLeaks: true});
     </script>
 
-    <!-- include source files here... -->
-    <script src="../app/bower_components/requirejs/require.js"></script>
+    <!--
+         IMPORTANT
+         If you do not want to set the `run` option to `true` for some reason
+         and are not using AMD, you must include the bridge.js file
+         in the `phantomjs` folder after you include `mocha.js`
+    -->
+    <script src="lib/bridge.js" type="text/javascript" charset="utf-8"></script>
 
-    <script>
+    <!-- Include your assertion lib of choice -->
+    <script src="lib/chai.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        // Setup chai
+        var expect = chai.expect;
+    </script>
 
+    <!-- Include anything you want to test -->
+    <script src="../app/bower_components/modernizr/modernizr.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../app/js/index-bundle.js" type="text/javascript" charset="utf-8"></script>
 
-require.config({
-  paths: {
-    'jQuery': '../app/bower_components/jquery/jquery',
-    'bootstrap': '../app/bower_components/bootstrap/js/bootstrap',
-    'lodash': '../app/bower_components/lodash/dist/lodash.compat.min',
-    'knockout': '../app/bower_components/knockout.js/knockout',
-    'game': '../app/js/game',
-    'test': 'spec/test'
-  },
-  shim: {
-    'jQuery': {
-      exports: '$'
-    },
-    'bootstrap': {
-      deps: ['jQuery']
-    },
-    'lodash': {
-      exports: '_'
-    },
-    'knockout': {
-      exports: 'ko'
-    }
-  }
-});
+    <!-- Spec files -->
+    <script src="spec/test.js" type="text/javascript" charset="utf-8"></script>
 
-require(['test'], function() {
-  mocha.run()
-});
-
+    <!-- run mocha -->
+    <script type="text/javascript" charset="utf-8">
+        mocha.run();
     </script>
 </body>
 </html>

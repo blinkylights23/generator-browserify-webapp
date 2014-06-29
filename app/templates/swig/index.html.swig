@@ -1,26 +1,25 @@
 {% extends "base.html" %}
 
 
-{% block require %}
-{% if !production %}
-<script src="bower_components/requirejs/require.js"></script>
-<script src="js/config.js"></script>
-{% endif %}
-<script src="js/index-main.js"></script>
+{% block javascript %}
+    {% include "includes/jstemplates.html" %}
+    <script src="js/index-bundle.js"></script>
 {% endblock %}
 
 
 
 {% block content %}
 
+<div class="container">
+    <section class="row">
+        <div class="large-12 columns">
 
-<section class="row">
-    <div class="large-12 columns">
+            <div data-bind="template: { name: 'pageTemplate', if: currentPage(), data: currentPage() }">
+                Loading graphic
+            </div>
 
-        Index.html
-
-    </div>
-</section>
-
+        </div>
+    </section>
+</div>
 
 {% endblock %}
