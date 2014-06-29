@@ -22,7 +22,7 @@ var ViewModel = function() {
   self.currentPage = ko.observable();
   self.buildPages = function() {
     _.each(config.pages, function(p) {
-      var pg = new PageModel(p);
+      var pg = new Page(p);
       self.pageList().push(pg);
     });
   };
