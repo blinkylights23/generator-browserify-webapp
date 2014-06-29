@@ -342,20 +342,6 @@ module.exports = function (grunt) {
         cwd: '<%%= yeoman.dist %>',
         src: '**'
       },
-      demo: {
-        options: {
-          bucket: '',
-        },
-        cwd: '<%%= yeoman.dist %>',
-        src: '**'
-      },
-      adops: {
-        options: {
-          bucket: '',
-        },
-        cwd: '<%%= yeoman.dist %>',
-        src: '**'
-      },
       production: {
         options: {
           bucket: '',
@@ -434,8 +420,6 @@ module.exports = function (grunt) {
   grunt.registerTask('deploy', function(target) {
     var allowedTargets = [
       'staging',
-      'demo',
-      'adops',
       'production'
     ];
     if (!target) {

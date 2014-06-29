@@ -1,6 +1,30 @@
 {
   "name": "<%= _.slugify(appname) %>",
   "version": "0.0.0",
+  "browser": {
+    "jquery": "./app/bower_components/jquery/jquery.min.js",
+    "bootstrap": "./app/bower_components/bootstrap/dist/js/bootstrap.min.js",
+    "simrou": "./app/bower_components/simrou/build/simrou.min.js"
+  },
+  "browserify-shim": {
+    "jquery": "$",
+    "simrou": {
+      "exports": "Simrou",
+      "depends": [
+        "jquery"
+      ]
+    },
+    "bootstrap": {
+      "depends": [
+        "jquery"
+      ]
+    }
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -22,14 +46,20 @@
     "grunt-mocha": "~0.4.11",
     "grunt-svgmin": "~0.4.0",
     "grunt-concurrent": "~0.5.0",
+    "grunt-config": "0.2.0",
+    "grunt-replace": "0.7.8",
     "load-grunt-tasks": "~0.4.0",
     "time-grunt": "~0.2.10",
     "jshint-stylish": "~0.1.5",
-    "grunt-bower-requirejs": "~0.11.0",
-    "grunt-requirejs": "~0.4.2",
     "grunt-swigtemplates": "~0.0.1",
     "grunt-aws": "~0.3.0",
-    "grunt-jsbeautifier": "~0.2.7"
+    "grunt-jsbeautifier": "~0.2.7",
+    "browserify": "~4.1.10",
+    "grunt-browserify": "~2.1.0",
+    "browserify-shim": "~3.5.0",
+    "lodash": "~2.4.1",
+    "moment": "~2.7.0",
+    "knockout": "~3.1.0"
   },
   "engines": {
     "node": ">=0.10.0"

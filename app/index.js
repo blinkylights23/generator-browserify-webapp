@@ -20,7 +20,7 @@ BrowserifyWebappGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
   // have Yeoman greet the user.
-  console.log('Discovery Static Site Generator');
+  console.log('Browserify Webapp Generator');
 
   var prompts = [];
 
@@ -53,6 +53,7 @@ BrowserifyWebappGenerator.prototype.app = function app() {
 BrowserifyWebappGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('editorconfig', '.editorconfig');
   this.copy('jshintrc', '.jshintrc');
+  this.template('_config.json', 'config.json');
   this.template('_package.json', 'package.json');
   this.template('_bower.json', 'bower.json');
   this.copy('bowerrc', '.bowerrc');
