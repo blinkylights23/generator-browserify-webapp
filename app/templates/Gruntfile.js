@@ -7,6 +7,8 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    config: grunt.file.readJSON('config.json'),
     yeoman: {
       app: 'app',
       dist: 'dist'
@@ -16,13 +18,16 @@ module.exports = function (grunt) {
         files: ['<%%= yeoman.app %>/styl/**/*.styl'],
         tasks: ['stylus:server', 'autoprefixer']
       },
-      styles: {
-        files: ['<%%= yeoman.app %>/css/{,*/}*.css'],
-        tasks: ['autoprefixer']
-      },
       swigtemplates: {
         files: ['<%%= yeoman.app %>/swig/**/*.{swig,json,html,js}'],
         tasks: ['swigtemplates']
+      },
+      browserify: {
+        files: [
+          '<%%= yeoman.app %>/js/**/*.js',
+          '!<%%= yeoman.app %>/js/**/*bundle*'
+        ],
+        tasks: ['browserify:server']
       },
       livereload: {
         options: {
@@ -78,8 +83,8 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '<%%= yeoman.dist %>/*',
-            '<%= yeoman.app %>/css/*.css',
-            '<%= yeoman.app %>/*.html',
+            '<%%= yeoman.app %>/css/*.css',
+            '<%%= yeoman.app %>/*.html',
             '!<%%= yeoman.dist %>/.git*'
           ]
         }]
@@ -102,8 +107,12 @@ module.exports = function (grunt) {
     mocha: {
       all: {
         options: {
-          run: true,
-          urls: ['http://<%%= connect.test.options.hostname %>:<%%= connect.test.options.port %>/index.html']
+          run: false,
+          log: true,
+          logErrors: true,
+          ignoreLeaks: true,
+          reporter: 'Spec',
+          urls: ['http://<%%= connect.test.options.hostname %>:<%%= connect.test.options.port %>/test/index.html']
         }
       }
     },
@@ -162,7 +171,7 @@ module.exports = function (grunt) {
           stylesheets: ['../.tmp/concat/css/main.css']
         },
         files: {
-          '.tmp/concat/css/main.css': ['<%= yeoman.dist %>/*.html']
+          '.tmp/concat/css/main.css': ['<%%= yeoman.dist %>/*.html']
         }
       }
     },
@@ -175,30 +184,6 @@ module.exports = function (grunt) {
           expand: true,
           src: '<%%= yeoman.app %>/css/*.css'
         }]
-      }
-    },
-    requirejs: {
-      options: {
-        baseUrl: '<%%= yeoman.app %>/js',
-        optimize: 'uglify2',
-        preserveLicenseComments: false,
-        useStrict: true,
-        mainConfigFile: '<%%= yeoman.app %>/js/config.js',
-        wrap: true,
-        mangle: false,
-        paths: {
-          ga: 'empty:',
-          twitter: 'empty:',
-          facebook: 'empty:',
-          discometrics: 'empty:'
-        }
-      },
-      index: {
-        options: {
-          name: 'index-main',
-          out: 'dist/js/index-main.js',
-          almond: true
-        }
       }
     },
     rev: {
@@ -300,7 +285,8 @@ module.exports = function (grunt) {
         'stylus:server',
         'copy:styles',
         'autoprefixer',
-        'swigtemplates:dev'
+        'swigtemplates:server',
+        'browserify:server'
       ],
       test: [
         'copy:styles'
@@ -309,69 +295,91 @@ module.exports = function (grunt) {
         'stylus:dist',
         'copy:styles',
         'autoprefixer',
-        'swigtemplates:prod',
+        'swigtemplates:dist',
+        'browserify:dist',
         'imagemin',
         'svgmin',
-        'htmlmin',
-        'requirejs'
+        'htmlmin'
       ]
     },
     swigtemplates: {
       options: {
-        templatesDir: 'app/swig'
+        templatesDir: '<%%= yeoman.app %>/swig'
       },
-      dev: {
-        dest: 'app/',
-        src: ['app/swig/**/*.swig'],
-        context: {
-          production: false
-        }
+      server: {
+        context: '<%%= config.server.options.variables %>',
+        dest: '<%%= yeoman.app %>/',
+        src: ['<%%= yeoman.app %>/swig/**/*.swig']
       },
-      prod: {
-        dest: 'app/',
-        src: ['app/swig/**/*.swig'],
-        context: {
-          production: true
-        }
+      dist: {
+        context: grunt.config,
+        dest: '<%%= yeoman.app %>/',
+        src: ['<%%= yeoman.app %>/swig/**/*.swig']
       }
+    },
+    replace: {
+      server: {},
+      dist: {}
     },
     bower: {
       options: {
         exclude: ['modernizr']
       },
-      all: {
-        rjsConfig: '<%%= yeoman.app %>/js/config.js'
-      }
+      all: {}
     },
     s3: {
       options: {
-        cacheTTL: 60*1000,
+        cacheTTL: 0,
         headers: {
           CacheControl: 300
         },
-        gzip: true
+        gzip: false
       },
       staging: {
-        bucket: "",
-        upload: [
-          {
-            src: "<%%= yeoman.dist %>/**",
-            rel: "<%%= yeoman.dist %>",
-            dest: "/",
-            gzip: false
-          }
-        ]
+        options: {
+          bucket: '',
+        },
+        cwd: '<%%= yeoman.dist %>',
+        src: '**'
+      },
+      demo: {
+        options: {
+          bucket: '',
+        },
+        cwd: '<%%= yeoman.dist %>',
+        src: '**'
+      },
+      adops: {
+        options: {
+          bucket: '',
+        },
+        cwd: '<%%= yeoman.dist %>',
+        src: '**'
       },
       production: {
-        bucket: "",
-        upload: [
-          {
-            src: "<%%= yeoman.dist %>/**",
-            rel: "<%%= yeoman.dist %>",
-            dest: "/",
-            gzip: true
+        options: {
+          bucket: '',
+          gzip: true
+        },
+        cwd: '<%%= yeoman.dist %>',
+        src: '**'
+      }
+    },
+    browserify: {
+      options: {
+      },
+      server: {
+        options: {
+          bundleOptions: {
+            debug: true
           }
-        ]
+        },
+        src: [ '<%%= yeoman.app %>/js/index-app.js' ],
+        dest: '<%%= yeoman.app %>/js/index-bundle.js'
+      },
+      dist: {
+        src: [ '<%%= yeoman.app %>/js/index-app.js' ],
+        dest: '<%%= yeoman.dist %>/js/index-bundle.js'
       }
     }
   });
@@ -383,6 +391,8 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'config:server',
+      'replace:server',
       'concurrent:server',
       'connect:livereload',
       'watch'
@@ -393,20 +403,27 @@ module.exports = function (grunt) {
     'clean:server',
     'concurrent:test',
     'connect:test',
+    // 'connect:test:keepalive',
     'mocha'
   ]);
 
-  grunt.registerTask('build', [
-    'clean:dist',
-    'useminPrepare',
-    'concurrent:dist',
-    'concat',
-    'cssmin',
-    'uglify',
-    'copy:dist',
-    'rev',
-    'usemin'
-  ]);
+  grunt.registerTask('build', function(target) {
+    var tasks = [
+      'clean:dist',
+      'useminPrepare',
+      'concurrent:dist',
+      'concat',
+      'cssmin',
+      'uglify',
+      'copy:dist',
+      'rev',
+      'usemin'
+    ];
+    if (target) {
+      tasks.splice(6, 0, 'replace:dist');
+    }
+    grunt.task.run(tasks);
+  });
 
   grunt.registerTask('default', [
     'jshint',
@@ -415,18 +432,29 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('deploy', function(target) {
+    var allowedTargets = [
+      'staging',
+      'demo',
+      'adops',
+      'production'
+    ];
+    if (!target) {
+      grunt.fail.fatal('Valid deployment targets: ' + allowedTargets.join(', '));
+    }
+    if (allowedTargets.indexOf(target) === -1) {
+      grunt.fail.fatal(
+        'Provided target: ' + target + ' is invalid. Valid deployment targets: ' + allowedTargets.join(', ')
+      );
+    }
+
+    grunt.log.ok(['Deploying to ' + target]);
     grunt.task.run([
-      'default'
+      'config:' + target,
+      'jshint',
+      'test',
+      'build:' + target,
+      's3:' + target
     ]);
-
-    if (target === 'staging') {
-      return grunt.task.run(['s3:staging']);
-    }
-
-    if (target === 'production') {
-      return grunt.task.run(['s3:production']);
-    }
-
   });
 
 };
